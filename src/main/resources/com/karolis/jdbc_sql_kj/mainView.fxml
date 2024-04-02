@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<TabPane maxHeight="720.0" maxWidth="1080.0" minHeight="720.0" minWidth="1080.0" prefHeight="720.0" prefWidth="1080.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<TabPane maxHeight="720.0" maxWidth="1080.0" minHeight="720.0" minWidth="1080.0" prefHeight="720.0" prefWidth="1080.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.karolis.jdbc_sql_kj.MainController">
   <tabs>
     <Tab text="Clientes">
          <content>
@@ -42,34 +42,40 @@
                   </ImageView>
                   <TableView opacity="0.95" prefHeight="200.0" prefWidth="630.0" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowSpan="3">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="C1" />
-                      <TableColumn prefWidth="75.0" text="C2" />
+                      <TableColumn prefWidth="75.0" text="ID" />
+                      <TableColumn prefWidth="160.0" text="Nombre" />
+                        <TableColumn prefWidth="178.0" text="Primer apellido" />
+                        <TableColumn minWidth="0.0" prefWidth="197.0" text="Segundo apellido" />
+                        <TableColumn minWidth="0.0" prefWidth="249.0" text="Telefono" />
                     </columns>
                      <GridPane.margin>
                         <Insets bottom="40.0" right="40.0" top="40.0" />
                      </GridPane.margin>
                   </TableView>
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Consultar cliente">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#consultClient" text="Consultar cliente">
                      <GridPane.margin>
                         <Insets left="25.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Añadir cliente">
+                  <Button alignment="CENTER" mnemonicParsing="false" text="Añadir cliente" onAction="#addClient">
                      <GridPane.margin>
                         <Insets left="25.0" top="60.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Borrar cliente">
+                  <Button alignment="CENTER" mnemonicParsing="false" text="Borrar cliente" onAction="#deleteClient">
                      <GridPane.margin>
                         <Insets left="25.0" top="120.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Modificar cliente">
+                  <Button alignment="CENTER" mnemonicParsing="false" text="Modificar cliente" onAction="#modifyClient">
                      <GridPane.margin>
                         <Insets left="25.0" top="180.0" />
                      </GridPane.margin>
                   </Button>
-                  <VBox prefHeight="227.0" prefWidth="167.0" GridPane.rowIndex="1" GridPane.rowSpan="2" />
+                  <VBox fx:id="clientVBox" prefHeight="227.0" prefWidth="167.0" GridPane.rowIndex="1" GridPane.rowSpan="2">
+                     <padding>
+                        <Insets left="15.0" right="15.0" />
+                     </padding></VBox>
                </children>
             </GridPane>
          </content>
@@ -101,8 +107,10 @@
                   </ImageView>
                   <TableView opacity="0.95" prefHeight="200.0" prefWidth="630.0" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowSpan="3">
                      <columns>
-                        <TableColumn prefWidth="75.0" text="C1" />
-                        <TableColumn prefWidth="75.0" text="C2" />
+                        <TableColumn prefWidth="75.0" text="ID" />
+                        <TableColumn prefWidth="169.0" text="Nombre" />
+                        <TableColumn prefWidth="482.0" text="Descripcion" />
+                        <TableColumn prefWidth="133.0" text="PVP" />
                      </columns>
                      <GridPane.margin>
                         <Insets bottom="40.0" right="40.0" top="40.0" />
@@ -160,8 +168,9 @@
                   </ImageView>
                   <TableView opacity="0.95" prefHeight="200.0" prefWidth="630.0" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowSpan="3">
                      <columns>
-                        <TableColumn prefWidth="75.0" text="C1" />
-                        <TableColumn prefWidth="75.0" text="C2" />
+                        <TableColumn prefWidth="320.0" text="Nombre cliente" />
+                        <TableColumn minWidth="0.0" prefWidth="298.0" text="Nombre producto" />
+                        <TableColumn minWidth="0.0" prefWidth="241.0" text="Fecha venta" />
                      </columns>
                      <GridPane.margin>
                         <Insets bottom="40.0" right="40.0" top="40.0" />
@@ -188,7 +197,7 @@
                      </GridPane.margin>
                   </Button>
                   <VBox prefHeight="227.0" prefWidth="167.0" GridPane.rowIndex="1" GridPane.rowSpan="2" />
-                  <Button mnemonicParsing="false" text="Crear tabla compran" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                  <Button mnemonicParsing="false" onAction="#createBuyTable" text="Crear tabla compran" GridPane.columnIndex="5" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets right="10.0" top="170.0" />
                      </GridPane.margin>

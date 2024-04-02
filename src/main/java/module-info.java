@@ -10,6 +10,8 @@ module com.karolis.jdbc_sql_kj {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.sql;
+    requires mysql.connector.j;
 
     opens com.karolis.jdbc_sql_kj to javafx.fxml;
     exports com.karolis.jdbc_sql_kj;
