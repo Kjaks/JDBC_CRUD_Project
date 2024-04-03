@@ -166,11 +166,11 @@
                         <Insets />
                      </GridPane.margin>
                   </ImageView>
-                  <TableView opacity="0.95" prefHeight="200.0" prefWidth="630.0" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowSpan="3">
+                  <TableView opacity="0.95" prefHeight="200.0" prefWidth="630.0" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowSpan="3" fx:id="buyTable">
                      <columns>
-                        <TableColumn prefWidth="320.0" text="Nombre cliente" />
-                        <TableColumn minWidth="0.0" prefWidth="298.0" text="Nombre producto" />
-                        <TableColumn minWidth="0.0" prefWidth="241.0" text="Fecha venta" />
+                        <TableColumn fx:id="clientBuyCol" prefWidth="320.0" text="Nombre cliente" />
+                        <TableColumn fx:id="productBuyCol" minWidth="0.0" prefWidth="298.0" text="Nombre producto" />
+                        <TableColumn fx:id="productDateCol" minWidth="0.0" prefWidth="241.0" text="Fecha venta" />
                      </columns>
                      <GridPane.margin>
                         <Insets bottom="40.0" right="40.0" top="40.0" />

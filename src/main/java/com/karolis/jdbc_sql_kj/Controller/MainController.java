@@ -1,6 +1,8 @@
 package com.karolis.jdbc_sql_kj.Controller;
 
+import com.karolis.jdbc_sql_kj.TableInfo.Buy;
 import com.karolis.jdbc_sql_kj.TableInfo.Client;
+import com.karolis.jdbc_sql_kj.TableInfo.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -27,10 +29,33 @@ public class MainController {
     private final ObservableList<Client> clientData = FXCollections.observableArrayList();
 
     @FXML
+    private TableView<Product> productTable;
+    @FXML
+    private TableColumn<Product, Integer> productIDCol;
+    @FXML
+    private TableColumn<Product, String> productNameCol;
+    @FXML
+    private TableColumn<Product, String> productDescriptionCol;
+    @FXML
+    private TableColumn<Product, Double> productPVPCol;
+    @FXML
+    private final ObservableList<Product> productData = FXCollections.observableArrayList();
+
+    @FXML
+    private TableView<Buy> buyTable;
+    @FXML
+    private TableColumn<Buy, String> clientBuyCol;
+    @FXML
+    private TableColumn<Buy, String> productBuyCol;
+    @FXML
+    private TableColumn<Buy, Double> productDateCol;
+    @FXML
+    private final ObservableList<Product> buyData = FXCollections.observableArrayList();
+    @FXML
     public VBox clientVBox;
-    com.karolis.jdbc_sql_kj.Controller.buyController buyController = new buyController();
-    com.karolis.jdbc_sql_kj.Controller.clientController clientController = new clientController();
-    com.karolis.jdbc_sql_kj.Controller.productController productController = new productController();
+    buyController buyController = new buyController();
+    clientController clientController = new clientController();
+    productController productController = new productController();
 
     @FXML
     public void initialize() {
@@ -40,6 +65,17 @@ public class MainController {
         clientSurname2Col.setCellValueFactory(new PropertyValueFactory<>("surname2"));
         clientPhoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
         refreshClientTable();
+
+        productIDCol.setCellValueFactory(new PropertyValueFactory<>("productID"));
+        productNameCol.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        productDescriptionCol.setCellValueFactory(new PropertyValueFactory<>("productDescription"));
+        productPVPCol.setCellValueFactory(new PropertyValueFactory<>("productPVP"));
+        refreshProductTable();
+
+        clientBuyCol.setCellValueFactory(new PropertyValueFactory<>("clientBuy"));
+        productBuyCol.setCellValueFactory(new PropertyValueFactory<>("productBuy"));
+        productDateCol.setCellValueFactory(new PropertyValueFactory<>("buyDate"));
+        refreshBuyTable();
     }
 
     @FXML
@@ -68,6 +104,36 @@ public class MainController {
         clientTable.setItems(clientData);
     }
 
+    @FXML
+    public void refreshProductTable() {
+        String fullProductText = productController.getProductsInfo();
+
+        // Limpiar la lista existente antes de agregar los nuevos clientes.
+        productData.clear();
+
+        // Separar el texto completo en partes que representan un cliente cada una
+        String[] productStringData = fullProductText.split(":");
+
+        /**
+         * Iterates over array and puts the data in the table
+         */
+        for(int i = 0; i < productStringData.length - 1;i+= 4){
+            int id = Integer.parseInt(productStringData[i]);
+            String nombre = productStringData[i + 1];
+            String descripcion = productStringData[i + 2];
+            Double PVP = Double.parseDouble(productStringData[i + 3]);
+
+            productData.add(new Product(id, nombre, descripcion, PVP));
+
+        }
+        productTable.setItems(productData);
+    }
+
+    @FXML
+    public void refreshBuyTable(){
+
+    }
+
 
     public void consultClient(){
         clientController.consultFormClient(clientVBox);
@@ -75,14 +141,17 @@ public class MainController {
 
     public void addClient(){
         clientController.addClientForm(clientVBox);
+        refreshClientTable();
     }
 
     public void deleteClient(){
         clientController.deleteClientForm(clientVBox);
+        refreshClientTable();
     }
 
     public void modifyClient(){
         clientController.modifyClient(clientVBox);
+        refreshClientTable();
     }
 
     public void createTableButton(){
