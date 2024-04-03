@@ -197,7 +197,7 @@
                      </GridPane.margin>
                   </Button>
                   <VBox prefHeight="227.0" prefWidth="167.0" GridPane.rowIndex="1" GridPane.rowSpan="2" />
-                  <Button mnemonicParsing="false" onAction="#createBuyTable" text="Crear tabla compran" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                  <Button mnemonicParsing="false" onAction="#createTableButton" text="Crear tabla compran" GridPane.columnIndex="5" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets right="10.0" top="170.0" />
                      </GridPane.margin>
