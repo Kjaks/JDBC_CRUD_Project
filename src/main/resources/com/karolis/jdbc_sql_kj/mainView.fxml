@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<TabPane maxHeight="720.0" maxWidth="1080.0" minHeight="720.0" minWidth="1080.0" prefHeight="720.0" prefWidth="1080.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.karolis.jdbc_sql_kj.MainController">
+<TabPane maxHeight="720.0" maxWidth="1080.0" minHeight="720.0" minWidth="1080.0" prefHeight="720.0" prefWidth="1080.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.karolis.jdbc_sql_kj.Controller.MainController">
   <tabs>
     <Tab text="Clientes">
          <content>
@@ -40,13 +40,13 @@
                         <Insets />
                      </GridPane.margin>
                   </ImageView>
-                  <TableView opacity="0.95" prefHeight="200.0" prefWidth="630.0" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowSpan="3">
+                  <TableView opacity="0.95" prefHeight="200.0" prefWidth="630.0" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowSpan="3" fx:id="clientTable">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="ID" />
-                      <TableColumn prefWidth="160.0" text="Nombre" />
-                        <TableColumn prefWidth="178.0" text="Primer apellido" />
-                        <TableColumn minWidth="0.0" prefWidth="197.0" text="Segundo apellido" />
-                        <TableColumn minWidth="0.0" prefWidth="249.0" text="Telefono" />
+                      <TableColumn fx:id="clientIDCol" prefWidth="75.0" text="ID" />
+                      <TableColumn fx:id="clientNameCol" prefWidth="160.0" text="Nombre" />
+                        <TableColumn fx:id="clientSurname1Col" prefWidth="178.0" text="Primer apellido" />
+                        <TableColumn fx:id="clientSurname2Col" minWidth="0.0" prefWidth="197.0" text="Segundo apellido" />
+                        <TableColumn fx:id="clientPhoneCol" minWidth="0.0" prefWidth="249.0" text="Telefono" />
                     </columns>
                      <GridPane.margin>
                         <Insets bottom="40.0" right="40.0" top="40.0" />
@@ -57,17 +57,17 @@
                         <Insets left="25.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Añadir cliente" onAction="#addClient">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#addClient" text="Añadir cliente">
                      <GridPane.margin>
                         <Insets left="25.0" top="60.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Borrar cliente" onAction="#deleteClient">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#deleteClient" text="Borrar cliente">
                      <GridPane.margin>
                         <Insets left="25.0" top="120.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Modificar cliente" onAction="#modifyClient">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#modifyClient" text="Modificar cliente">
                      <GridPane.margin>
                         <Insets left="25.0" top="180.0" />
                      </GridPane.margin>
@@ -105,12 +105,12 @@
                         <Insets />
                      </GridPane.margin>
                   </ImageView>
-                  <TableView opacity="0.95" prefHeight="200.0" prefWidth="630.0" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowSpan="3">
+                  <TableView opacity="0.95" prefHeight="200.0" prefWidth="630.0" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowSpan="3" fx:id="productTable">
                      <columns>
-                        <TableColumn prefWidth="75.0" text="ID" />
-                        <TableColumn prefWidth="169.0" text="Nombre" />
-                        <TableColumn prefWidth="482.0" text="Descripcion" />
-                        <TableColumn prefWidth="133.0" text="PVP" />
+                        <TableColumn fx:id="productIDCol" prefWidth="75.0" text="ID" />
+                        <TableColumn fx:id="productNameCol" prefWidth="169.0" text="Nombre" />
+                        <TableColumn fx:id="productDescriptionCol" prefWidth="482.0" text="Descripcion" />
+                        <TableColumn fx:id="productPVPCol" prefWidth="133.0" text="PVP" />
                      </columns>
                      <GridPane.margin>
                         <Insets bottom="40.0" right="40.0" top="40.0" />

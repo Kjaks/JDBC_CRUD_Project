@@ -1,17 +1,21 @@
-package com.karolis.jdbc_sql_kj;
+package com.karolis.jdbc_sql_kj.Controller;
 
 import Models.clientModel;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class clientController {
     clientModel clientModel = new clientModel();
 
+    public String getClientsInfo(){
+        return clientModel.getClients();
+    }
     public void consultFormClient(VBox VBox){
         VBox.getChildren().clear();
         Label consultClientIdLabel = new Label("ID cliente a consultar:");
@@ -27,7 +31,12 @@ public class clientController {
             if (isNumeric(input) == false) {
                 showAlert("Error", "El texto ingresado no es un número.");
             } else {
-                clientModel.consultClient(Integer.parseInt(input));
+                String clientData = clientModel.consultClient(Integer.parseInt(input));
+                if(clientData == ""){
+                    showAlert("Error", "No se ha encontrado al cliente");
+                } else{
+                    clientInfo(clientData);
+                }
             }
         });
 
@@ -93,6 +102,32 @@ public class clientController {
 
         VBox.getChildren().addAll(modifyClientIdLabel, clientIDField, deleteClientButton);
         VBox.setMargin(deleteClientButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
+    }
+
+    private void clientInfo(String data){
+        // Crear un TextArea para mostrar la información del cliente
+        TextArea clienteInfoTextArea = new TextArea();
+        clienteInfoTextArea.setEditable(false);
+
+        // Configurar el TextArea con la información del cliente
+        clienteInfoTextArea.setText(data);
+
+        // Crear un diseño para la ventana emergente
+        VBox root = new VBox(10);
+        root.setPadding(new Insets(10));
+        root.getChildren().add(clienteInfoTextArea);
+
+        // Configurar la escena
+        Scene scene = new Scene(root, 600, 400);
+
+        // Configurar el nuevo Stage como modal
+        Stage popUpStage = new Stage();
+        popUpStage.initModality(Modality.APPLICATION_MODAL);
+        popUpStage.setTitle("Información del Cliente");
+        popUpStage.setScene(scene);
+
+        // Mostrar el nuevo Stage
+        popUpStage.show();
     }
 
     private boolean isNumeric(String str) {

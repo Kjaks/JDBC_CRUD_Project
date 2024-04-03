@@ -1,4 +1,4 @@
-package com.karolis.jdbc_sql_kj;
+package com.karolis.jdbc_sql_kj.Controller;
 
 import Models.buyModel;
 
