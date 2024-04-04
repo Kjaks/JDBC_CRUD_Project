@@ -12,6 +12,19 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
 public class MainController {
+    private static MainController instance;
+
+    public MainController() {
+        instance = this;
+    }
+
+    /**
+     * Returns the instance of MainController, this method is used for refreshing the table in the other controllers.
+     * @return The instance of MainController.
+     */
+    public static MainController getInstance() {
+        return instance;
+    }
 
     @FXML
     private TableView<Client> clientTable;

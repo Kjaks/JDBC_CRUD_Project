@@ -21,8 +21,7 @@ public class clientModel {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Error al acceder a la base de datos");
-            e.printStackTrace();
+            data = "-1";
         }
 
         return data;
@@ -58,4 +57,23 @@ public class clientModel {
         }
         return data;
     }
+
+    public int insertClient(String name, String surname1, String surname2, String phone) {
+        int result = 0;
+        Connection con = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Ventas_JDBC", "root", "root");
+            if (con != null) {
+                Statement st = con.createStatement();
+                st.executeUpdate("INSERT INTO clients(client_name, surname1, surname2, phone) VALUES ('" + name + "', '" + surname1 + "', '" + surname2 + "', '" + phone + "')" + ";");
+            }
+        }
+        catch (Exception e) {
+            result = -1;
+            e.printStackTrace();
+            }
+        return result;
+    }
 }
+
