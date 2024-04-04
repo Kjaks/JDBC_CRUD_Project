@@ -50,7 +50,7 @@ public class MainController {
     @FXML
     private TableColumn<Buy, Double> productDateCol;
     @FXML
-    private final ObservableList<Product> buyData = FXCollections.observableArrayList();
+    private final ObservableList<Buy> buyData = FXCollections.observableArrayList();
     @FXML
     public VBox clientVBox;
     buyController buyController = new buyController();
@@ -93,12 +93,12 @@ public class MainController {
          */
         for(int i = 0; i < clientStringData.length - 1;i+= 5){
             int id = Integer.parseInt(clientStringData[i]);
-            String nombre = clientStringData[i + 1];
-            String apellido1 = clientStringData[i + 2];
-            String apellido2 = clientStringData[i + 3];
-            String telefono = clientStringData[i + 4];
+            String name = clientStringData[i + 1];
+            String surname1 = clientStringData[i + 2];
+            String surname2 = clientStringData[i + 3];
+            String phone = clientStringData[i + 4];
 
-            clientData.add(new Client(id, nombre, apellido1, apellido2, telefono));
+            clientData.add(new Client(id, name, surname1, surname2, phone));
 
         }
         clientTable.setItems(clientData);
@@ -119,11 +119,11 @@ public class MainController {
          */
         for(int i = 0; i < productStringData.length - 1;i+= 4){
             int id = Integer.parseInt(productStringData[i]);
-            String nombre = productStringData[i + 1];
-            String descripcion = productStringData[i + 2];
+            String name = productStringData[i + 1];
+            String description = productStringData[i + 2];
             Double PVP = Double.parseDouble(productStringData[i + 3]);
 
-            productData.add(new Product(id, nombre, descripcion, PVP));
+            productData.add(new Product(id, name, description, PVP));
 
         }
         productTable.setItems(productData);
@@ -131,7 +131,26 @@ public class MainController {
 
     @FXML
     public void refreshBuyTable(){
+        String fullBuyText = buyController.getBuyInfo();
 
+        // Limpiar la lista existente antes de agregar los nuevos clientes.
+        buyData.clear();
+
+        // Separar el texto completo en partes que representan un cliente cada una
+        String[] buyStringData = fullBuyText.split(":");
+
+        /**
+         * Iterates over array and puts the data in the table
+         */
+        for(int i = 0; i < buyStringData.length - 1;i+= 3){
+            String client_name = buyStringData[i];
+            String product_name = buyStringData[i + 1];
+            String buy_date = buyStringData[i + 2];
+
+            buyData.add(new Buy(client_name, product_name, buy_date));
+
+        }
+        buyTable.setItems(buyData);
     }
 
 

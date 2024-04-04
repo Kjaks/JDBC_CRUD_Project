@@ -12,4 +12,8 @@ public class buyController {
         if(result == -1) System.out.println("Error BBDD!");
         else System.out.println("Tabla creada!");
     }
+
+    public String getBuyInfo() {
+        return buyModel.getBuys();
+    }
 }

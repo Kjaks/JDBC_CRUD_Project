@@ -12,7 +12,7 @@ public class CeliaShop extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(CeliaShop.class.getResource("mainView.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1080, 720);
-        stage.setTitle("CELIA SHOP");
+        stage.setTitle("CELIA SHOP : KAROLIS JAKAS STIRBYTE 2024 ©");
         stage.setScene(scene);
         stage.show();
     }
