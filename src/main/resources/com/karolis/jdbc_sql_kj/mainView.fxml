@@ -40,7 +40,7 @@
                         <Insets />
                      </GridPane.margin>
                   </ImageView>
-                  <TableView opacity="0.95" prefHeight="200.0" prefWidth="630.0" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowSpan="3" fx:id="clientTable">
+                  <TableView fx:id="clientTable" opacity="0.95" prefHeight="200.0" prefWidth="630.0" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowSpan="3">
                     <columns>
                       <TableColumn fx:id="clientIDCol" prefWidth="75.0" text="ID" />
                       <TableColumn fx:id="clientNameCol" prefWidth="160.0" text="Nombre" />
@@ -105,7 +105,7 @@
                         <Insets />
                      </GridPane.margin>
                   </ImageView>
-                  <TableView opacity="0.95" prefHeight="200.0" prefWidth="630.0" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowSpan="3" fx:id="productTable">
+                  <TableView fx:id="productTable" opacity="0.95" prefHeight="200.0" prefWidth="630.0" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowSpan="3">
                      <columns>
                         <TableColumn fx:id="productIDCol" prefWidth="75.0" text="ID" />
                         <TableColumn fx:id="productNameCol" prefWidth="169.0" text="Nombre" />
@@ -116,27 +116,30 @@
                         <Insets bottom="40.0" right="40.0" top="40.0" />
                      </GridPane.margin>
                   </TableView>
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Consultar producto">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#consultProduct" text="Consultar producto">
                      <GridPane.margin>
                         <Insets left="25.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Añadir producto">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#addProduct" text="Añadir producto">
                      <GridPane.margin>
                         <Insets left="25.0" top="60.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Borrar producto">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#deleteProduct" text="Borrar producto">
                      <GridPane.margin>
                         <Insets left="25.0" top="120.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Modificar producto">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#modifyProduct" text="Modificar producto">
                      <GridPane.margin>
                         <Insets left="25.0" top="180.0" />
                      </GridPane.margin>
                   </Button>
-                  <VBox prefHeight="227.0" prefWidth="167.0" GridPane.rowIndex="1" GridPane.rowSpan="2" />
+                  <VBox fx:id="productVBox" prefHeight="227.0" prefWidth="167.0" GridPane.rowIndex="1" GridPane.rowSpan="2">
+                     <padding>
+                        <Insets left="15.0" right="15.0" />
+                     </padding></VBox>
                </children>
             </GridPane>
          </content>
@@ -166,7 +169,7 @@
                         <Insets />
                      </GridPane.margin>
                   </ImageView>
-                  <TableView opacity="0.95" prefHeight="200.0" prefWidth="630.0" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowSpan="3" fx:id="buyTable">
+                  <TableView fx:id="buyTable" opacity="0.95" prefHeight="200.0" prefWidth="630.0" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowSpan="3">
                      <columns>
                         <TableColumn fx:id="clientBuyCol" prefWidth="320.0" text="Nombre cliente" />
                         <TableColumn fx:id="productBuyCol" minWidth="0.0" prefWidth="298.0" text="Nombre producto" />
@@ -196,7 +199,10 @@
                         <Insets left="25.0" top="180.0" />
                      </GridPane.margin>
                   </Button>
-                  <VBox prefHeight="227.0" prefWidth="167.0" GridPane.rowIndex="1" GridPane.rowSpan="2" />
+                  <VBox prefHeight="227.0" prefWidth="167.0" GridPane.rowIndex="1" GridPane.rowSpan="2">
+                     <padding>
+                        <Insets left="15.0" right="15.0" />
+                     </padding></VBox>
                   <Button mnemonicParsing="false" onAction="#createTableButton" text="Crear tabla compran" GridPane.columnIndex="5" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets right="10.0" top="170.0" />

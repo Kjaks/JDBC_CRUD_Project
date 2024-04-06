@@ -66,6 +66,10 @@ public class MainController {
     private final ObservableList<Buy> buyData = FXCollections.observableArrayList();
     @FXML
     public VBox clientVBox;
+    @FXML
+    public VBox productVBox;
+    @FXML
+    public VBox buyVBox;
     buyController buyController = new buyController();
     clientController clientController = new clientController();
     productController productController = new productController();
@@ -184,6 +188,25 @@ public class MainController {
     public void modifyClient(){
         clientController.searchModifyClientForm(clientVBox);
         refreshClientTable();
+    }
+
+    public void consultProduct(){
+        productController.consultFormProduct(productVBox);
+    }
+
+    public void addProduct(){
+        productController.addProductForm(productVBox);
+        refreshProductTable();
+    }
+
+    public void deleteProduct(){
+        productController.deleteProductForm(productVBox);
+        refreshProductTable();
+    }
+
+    public void modifyProduct(){
+        productController.searchModifyProductForm(productVBox);
+        refreshProductTable();
     }
 
     public void createTableButton(){

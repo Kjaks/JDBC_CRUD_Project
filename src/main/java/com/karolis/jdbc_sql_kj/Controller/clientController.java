@@ -91,36 +91,33 @@ public class clientController {
         String surname2Input = sur2.getText();
         String phoneInput = phone.getText();
 
-        boolean isValid = true;
-
         if (nameInput.length() >= 50 || nameInput.isEmpty() || isNumeric(nameInput)) {
             showAlert("Error", "El nombre debe tener entre 1 y 50 caracteres y deben tener al menos una letra!");
-            isValid = false;
+            return;
         }
 
         if ((surname1Input.length() >= 50 || surname1Input.isEmpty()) || (surname2Input.length() >= 50 || surname2Input.isEmpty()) || isNumeric(surname1Input) || isNumeric(surname2Input)) {
             showAlert("Error", "Los apellidos deben tener entre 1 y 50 caracteres y deben tener al menos una letra!");
-            isValid = false;
+            return;
         }
 
         if (!isNumeric(phoneInput)) {
             showAlert("Error", "El telefono debe ser un numero!");
-            isValid = false;
+            return;
         }
 
         if (phoneInput.length() != 9) {
             showAlert("Error", "El numero de telefono deben de ser 9 caracteres!");
-            isValid = false;
+            return;
         }
 
-        if (isValid) {
-            name.clear();
-            sur1.clear();
-            sur2.clear();
-            phone.clear();
-            clientModel.insertClient(nameInput, surname1Input, surname2Input ,phoneInput);
-            MainController.getInstance().refreshClientTable();
-        }
+        name.clear();
+        sur1.clear();
+        sur2.clear();
+        phone.clear();
+        clientModel.insertClient(nameInput, surname1Input, surname2Input ,phoneInput);
+        MainController.getInstance().refreshClientTable();
+
     }
 
     public void deleteClientForm(VBox VBox){
@@ -174,7 +171,7 @@ public class clientController {
             if (isNumeric(input)) {
                 String clientData = clientModel.consultClient(Integer.parseInt(input));
                 if (!clientData.isEmpty()) {
-                    modifyClientForm(VBox);
+                    modifyClientForm(VBox, Integer.parseInt(input));
                 } else {
                     showAlert("Error", "No se ha encontrado al cliente");
                 }
@@ -187,30 +184,73 @@ public class clientController {
         VBox.setMargin(searchModifyClientButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
     }
 
-    public void modifyClientForm(VBox VBox){
+    public void modifyClientForm(VBox VBox, int inputID){
         VBox.getChildren().clear();
+        String[] clientData = clientModel.getClientInfo(inputID).split(":");
+
         Label nameLabel = new Label("Nombre:");
         TextField nameField = new TextField();
+        nameField.setText(clientData[0]);
 
         Label surname1Label = new Label("Apellido1:");
         TextField surname1Field = new TextField();
+        surname1Field.setText(clientData[1]);
 
         Label surname2Label = new Label("Apellido2:");
         TextField surname2Field = new TextField();
+        surname2Field.setText(clientData[2]);
 
         Label phoneLabel = new Label("Telefono:");
         TextField phoneField = new TextField();
+        phoneField.setText(clientData[3]);
 
         // Crear un botón
         Button modifyClientButton = new Button("Enviar");
 
         // Definir el evento onAction del botón
         modifyClientButton.setOnAction(e -> {
-            System.out.println("Button clicked!"); // Aquí puedes agregar la lógica que desees ejecutar cuando se haga clic en el botón
+            modifyClient(inputID, nameField, surname1Field, surname2Field, phoneField, VBox);
         });
 
         VBox.getChildren().addAll(nameLabel, nameField, surname1Label, surname1Field, surname2Label, surname2Field, phoneLabel, phoneField, modifyClientButton);
         VBox.setMargin(modifyClientButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
+    }
+
+    public void modifyClient(int ID,TextField name, TextField sur1, TextField sur2, TextField phone, VBox VBox) {
+        String nameInput = name.getText();
+        String surname1Input = sur1.getText();
+        String surname2Input = sur2.getText();
+        String phoneInput = phone.getText();
+
+        if (nameInput.length() >= 50 || nameInput.isEmpty() || isNumeric(nameInput)) {
+            showAlert("Error", "El nombre debe tener entre 1 y 50 caracteres y deben tener al menos una letra!");
+            return;
+        }
+
+        if ((surname1Input.length() >= 50 || surname1Input.isEmpty()) || (surname2Input.length() >= 50 || surname2Input.isEmpty()) || isNumeric(surname1Input) || isNumeric(surname2Input)) {
+            showAlert("Error", "Los apellidos deben tener entre 1 y 50 caracteres y deben tener al menos una letra!");
+            return;
+        }
+
+        if (!isNumeric(phoneInput)) {
+            showAlert("Error", "El telefono debe ser un numero!");
+            return;
+        }
+
+        if (phoneInput.length() != 9) {
+            showAlert("Error", "El numero de telefono deben de ser 9 caracteres!");
+            return;
+        }
+
+        name.clear();
+        sur1.clear();
+        sur2.clear();
+        phone.clear();
+        clientModel.modifyClient(ID,nameInput, surname1Input, surname2Input ,phoneInput);
+        showAlert("Cliente modificado!" , "El cliente con el id " + ID + " ha sido modificado!");
+        MainController.getInstance().refreshClientTable();
+        VBox.getChildren().clear();
+
     }
 
     private void clientInfo(String data){
@@ -232,7 +272,7 @@ public class clientController {
         // Configurar el nuevo Stage como modal
         Stage popUpStage = new Stage();
         popUpStage.initModality(Modality.APPLICATION_MODAL);
-        popUpStage.setTitle("Información del Cliente");
+        popUpStage.setTitle("Información del Producto");
         popUpStage.setScene(scene);
 
         // Mostrar el nuevo Stage

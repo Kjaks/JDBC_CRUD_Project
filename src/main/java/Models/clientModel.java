@@ -89,5 +89,44 @@ public class clientModel {
         }
         return result;
     }
+
+    public String getClientInfo(int inputID){
+        Connection con = null;
+        String data = "";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Ventas_JDBC", "root", "root");
+            if (con != null) {
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery("SELECT * FROM clients WHERE id = " + inputID + ";");
+                while (rs.next()) {
+                    data += rs.getString("client_name") + ":" + rs.getString("surname1") + ":" + rs.getString("surname2") + ":" + rs.getString("phone") + ":";
+                }
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Error al acceder a la base de datos");
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public int modifyClient(int ID,String newName, String newSurname1, String newSurname2, String newPhone) {
+        int result = 0;
+        Connection con = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Ventas_JDBC", "root", "root");
+            if (con != null) {
+                Statement st = con.createStatement();
+                st.executeUpdate("UPDATE clients SET client_name = '" + newName + "', surname1 = '" + newSurname1 + "', surname2 = '" + newSurname2 + "', phone = '" + newPhone + "' WHERE id = " + ID + ";");
+            }
+        }
+        catch (Exception e) {
+            result = -1;
+        }
+        return result;
+    }
 }
 
