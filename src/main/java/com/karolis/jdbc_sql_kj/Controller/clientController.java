@@ -59,7 +59,6 @@ public class clientController {
         }
     }
 
-
     public void addClientForm(VBox VBox){
         VBox.getChildren().clear();
         Label nameLabel = new Label("Nombre:");
@@ -134,28 +133,84 @@ public class clientController {
 
         // Definir el evento onAction del botón
         deleteClientButton.setOnAction(e -> {
-            System.out.println("Button clicked!"); // Aquí puedes agregar la lógica que desees ejecutar cuando se haga clic en el botón
+            deleteClient(deleteClientIDField);
         });
 
         VBox.getChildren().addAll(deleteClientIdLabel, deleteClientIDField, deleteClientButton);
         VBox.setMargin(deleteClientButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
     }
 
-    public void modifyClient(VBox VBox){
+    public void deleteClient(TextField deleteClient){
+        String input = deleteClient.getText();
+
+        if (isNumeric(input)) {
+            String clientData = clientModel.consultClient(Integer.parseInt(input));
+            if (!clientData.isEmpty()) {
+                deleteClient.clear();
+                clientModel.deleteClient(Integer.parseInt(input));
+                MainController.getInstance().refreshClientTable();
+                MainController.getInstance().refreshBuyTable();
+                showAlert("Cliente borrado!" , "El cliente con el id " + input + " ha sido borrado!");
+            } else {
+                showAlert("Error", "No se ha encontrado al cliente");
+            }
+        } else {
+            showAlert("Error", "El id debe ser un numero!");
+        }
+    }
+
+    public void searchModifyClientForm(VBox VBox){
         VBox.getChildren().clear();
         Label modifyClientIdLabel = new Label("ID cliente a modificar:");
         TextField clientIDField = new TextField();
 
         // Crear un botón
-        Button deleteClientButton = new Button("Enviar");
+        Button searchModifyClientButton = new Button("Enviar");
 
         // Definir el evento onAction del botón
-        deleteClientButton.setOnAction(e -> {
+        searchModifyClientButton.setOnAction(e -> {
+            String input = clientIDField.getText();
+
+            if (isNumeric(input)) {
+                String clientData = clientModel.consultClient(Integer.parseInt(input));
+                if (!clientData.isEmpty()) {
+                    modifyClientForm(VBox);
+                } else {
+                    showAlert("Error", "No se ha encontrado al cliente");
+                }
+            } else {
+                showAlert("Error", "El id debe ser un numero!");
+            }
+        });
+
+        VBox.getChildren().addAll(modifyClientIdLabel, clientIDField, searchModifyClientButton);
+        VBox.setMargin(searchModifyClientButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
+    }
+
+    public void modifyClientForm(VBox VBox){
+        VBox.getChildren().clear();
+        Label nameLabel = new Label("Nombre:");
+        TextField nameField = new TextField();
+
+        Label surname1Label = new Label("Apellido1:");
+        TextField surname1Field = new TextField();
+
+        Label surname2Label = new Label("Apellido2:");
+        TextField surname2Field = new TextField();
+
+        Label phoneLabel = new Label("Telefono:");
+        TextField phoneField = new TextField();
+
+        // Crear un botón
+        Button modifyClientButton = new Button("Enviar");
+
+        // Definir el evento onAction del botón
+        modifyClientButton.setOnAction(e -> {
             System.out.println("Button clicked!"); // Aquí puedes agregar la lógica que desees ejecutar cuando se haga clic en el botón
         });
 
-        VBox.getChildren().addAll(modifyClientIdLabel, clientIDField, deleteClientButton);
-        VBox.setMargin(deleteClientButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
+        VBox.getChildren().addAll(nameLabel, nameField, surname1Label, surname1Field, surname2Label, surname2Field, phoneLabel, phoneField, modifyClientButton);
+        VBox.setMargin(modifyClientButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
     }
 
     private void clientInfo(String data){

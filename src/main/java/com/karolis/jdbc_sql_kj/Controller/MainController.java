@@ -182,7 +182,7 @@ public class MainController {
     }
 
     public void modifyClient(){
-        clientController.modifyClient(clientVBox);
+        clientController.searchModifyClientForm(clientVBox);
         refreshClientTable();
     }
 

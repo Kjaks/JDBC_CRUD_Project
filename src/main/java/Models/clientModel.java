@@ -1,9 +1,6 @@
 package Models;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class clientModel {
 
@@ -71,8 +68,25 @@ public class clientModel {
         }
         catch (Exception e) {
             result = -1;
-            e.printStackTrace();
             }
+        return result;
+    }
+
+    public int deleteClient(int id){
+        int result = 0;
+        Connection con = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Ventas_JDBC", "root", "root");
+            if (con != null) {
+                Statement st = con.createStatement();
+                st.executeUpdate("DELETE FROM buy WHERE id_client = " + id + ";");
+                st.executeUpdate("DELETE FROM clients WHERE id = " + id + ";");
+            }
+        }
+        catch (Exception e) {
+            result = -1;
+        }
         return result;
     }
 }
