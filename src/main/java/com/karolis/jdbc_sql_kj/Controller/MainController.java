@@ -57,11 +57,13 @@ public class MainController {
     @FXML
     private TableView<Buy> buyTable;
     @FXML
+    private TableColumn<Buy, String> idBuyCol;
+    @FXML
     private TableColumn<Buy, String> clientBuyCol;
     @FXML
     private TableColumn<Buy, String> productBuyCol;
     @FXML
-    private TableColumn<Buy, Double> productDateCol;
+    private TableColumn<Buy, String> productDateCol;
     @FXML
     private final ObservableList<Buy> buyData = FXCollections.observableArrayList();
     @FXML
@@ -89,6 +91,7 @@ public class MainController {
         productPVPCol.setCellValueFactory(new PropertyValueFactory<>("productPVP"));
         refreshProductTable();
 
+        idBuyCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         clientBuyCol.setCellValueFactory(new PropertyValueFactory<>("clientBuy"));
         productBuyCol.setCellValueFactory(new PropertyValueFactory<>("productBuy"));
         productDateCol.setCellValueFactory(new PropertyValueFactory<>("buyDate"));
@@ -159,17 +162,17 @@ public class MainController {
         /**
          * Iterates over array and puts the data in the table
          */
-        for(int i = 0; i < buyStringData.length - 1;i+= 3){
-            String client_name = buyStringData[i];
-            String product_name = buyStringData[i + 1];
-            String buy_date = buyStringData[i + 2];
+        for(int i = 0; i < buyStringData.length - 1;i+= 4){
+            int id = Integer.parseInt(buyStringData[i]);
+            String client_name = buyStringData[i + 1];
+            String product_name = buyStringData[i + 2];
+            String buy_date = buyStringData[i + 3];
 
-            buyData.add(new Buy(client_name, product_name, buy_date));
+            buyData.add(new Buy(id, client_name, product_name, buy_date));
 
         }
         buyTable.setItems(buyData);
     }
-
 
     public void consultClient(){
         clientController.consultFormClient(clientVBox);
@@ -207,6 +210,25 @@ public class MainController {
     public void modifyProduct(){
         productController.searchModifyProductForm(productVBox);
         refreshProductTable();
+    }
+
+    public void consultBuy(){
+        buyController.consultFormBuy(buyVBox);
+    }
+
+    public void addBuy(){
+        buyController.addBuyForm(buyVBox);
+        refreshBuyTable();
+    }
+
+    public void deleteBuy(){
+        buyController.deleteBuyForm(buyVBox);
+        refreshBuyTable();
+    }
+
+    public void modifyBuy(){
+        buyController.searchModifyBuyForm(buyVBox);
+        refreshBuyTable();
     }
 
     public void createTableButton(){

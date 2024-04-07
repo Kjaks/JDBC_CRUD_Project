@@ -2,8 +2,10 @@ package com.karolis.jdbc_sql_kj.TableInfo;
 
 public class Buy {
     private final String clientBuy, productBuy, buyDate;
+    private final int id;
 
-    public Buy(String clientBuy, String productBuy, String buyDate) {
+    public Buy(int id,String clientBuy, String productBuy, String buyDate) {
+        this.id = id;
         this.clientBuy = clientBuy;
         this.productBuy = productBuy;
         this.buyDate = buyDate;
@@ -19,5 +21,9 @@ public class Buy {
 
     public String getBuyDate() {
         return buyDate;
+    }
+
+    public int getId() {
+        return id;
     }
 }

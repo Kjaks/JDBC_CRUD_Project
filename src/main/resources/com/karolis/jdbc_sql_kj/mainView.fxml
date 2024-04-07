@@ -171,35 +171,36 @@
                   </ImageView>
                   <TableView fx:id="buyTable" opacity="0.95" prefHeight="200.0" prefWidth="630.0" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowSpan="3">
                      <columns>
-                        <TableColumn fx:id="clientBuyCol" prefWidth="320.0" text="Nombre cliente" />
-                        <TableColumn fx:id="productBuyCol" minWidth="0.0" prefWidth="298.0" text="Nombre producto" />
-                        <TableColumn fx:id="productDateCol" minWidth="0.0" prefWidth="241.0" text="Fecha venta" />
+                        <TableColumn fx:id="idBuyCol" prefWidth="70.0" text="ID venta" />
+                        <TableColumn fx:id="clientBuyCol" prefWidth="303.0" text="Nombre cliente" />
+                        <TableColumn fx:id="productBuyCol" minWidth="0.0" prefWidth="273.0" text="Nombre producto" />
+                        <TableColumn fx:id="productDateCol" minWidth="0.0" prefWidth="254.0" text="Fecha venta" />
                      </columns>
                      <GridPane.margin>
                         <Insets bottom="40.0" right="40.0" top="40.0" />
                      </GridPane.margin>
                   </TableView>
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Consultar venta">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#consultBuy" text="Consultar venta">
                      <GridPane.margin>
                         <Insets left="25.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Añadir venta">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#addBuy" text="Añadir venta">
                      <GridPane.margin>
                         <Insets left="25.0" top="60.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Borrar venta">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#deleteBuy" text="Borrar venta">
                      <GridPane.margin>
                         <Insets left="25.0" top="120.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Modificar venta">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#modifyBuy" text="Modificar venta">
                      <GridPane.margin>
                         <Insets left="25.0" top="180.0" />
                      </GridPane.margin>
                   </Button>
-                  <VBox prefHeight="227.0" prefWidth="167.0" GridPane.rowIndex="1" GridPane.rowSpan="2">
+                  <VBox fx:id="buyVBox" prefHeight="227.0" prefWidth="167.0" GridPane.rowIndex="1" GridPane.rowSpan="2">
                      <padding>
                         <Insets left="15.0" right="15.0" />
                      </padding></VBox>
