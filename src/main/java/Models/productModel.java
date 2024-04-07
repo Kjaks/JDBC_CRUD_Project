@@ -5,7 +5,17 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+/**
+ * The productModel class represents the model for handling product-related operations in the Celia Shop application.
+ * This class includes methods for retrieving, inserting, deleting, and modifying product records.
+ * @author Karolis Jakas Stirbyte
+ */
 public class productModel {
+    /**
+     * Retrieves information about all products from the database, this data refresh the tableView.
+     *
+     * @return A string containing information about all products.
+     */
     public String getProducts(){
         Connection con = null;
         String data = "";
@@ -20,13 +30,18 @@ public class productModel {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Error al acceder a la base de datos");
-            e.printStackTrace();
+            data = "";
         }
 
         return data;
     }
 
+    /**
+     * Retrieves detailed information about a specific product from the database based on its ID.
+     *
+     * @param inputID The ID of the product to retrieve information for.
+     * @return A string containing detailed information about the specified product.
+     */
     public String getProductInfo(int inputID){
         Connection con = null;
         String data = "";
@@ -43,12 +58,19 @@ public class productModel {
             }
         }
         catch (Exception e) {
-            System.out.println("Error al acceder a la base de datos");
-            e.printStackTrace();
+            data = "";
         }
         return data;
     }
 
+    /**
+     * Inserts a new product into the database.
+     *
+     * @param product_name The name of the new product.
+     * @param product_description The description of the new product.
+     * @param pvp The price of the new product.
+     * @return An integer indicating the success or failure of the operation.
+     */
     public int insertProduct(String product_name, String product_description, Double pvp) {
         int result = 0;
         Connection con = null;
@@ -66,6 +88,12 @@ public class productModel {
         return result;
     }
 
+    /**
+     * Deletes a product record from the database based on its ID.
+     *
+     * @param id The ID of the product record to delete.
+     * @return An integer indicating the success or failure of the operation.
+     */
     public int deleteProduct(int id){
         int result = 0;
         Connection con = null;
@@ -84,6 +112,15 @@ public class productModel {
         return result;
     }
 
+    /**
+     * Modifies an existing product record in the database.
+     *
+     * @param ID The ID of the product record to modify.
+     * @param newName The new name of the product.
+     * @param newDescription The new description of the product.
+     * @param newPVP The new price of the product.
+     * @return An integer indicating the success or failure of the operation.
+     */
     public int modifyProduct(int ID,String newName, String newDescription, Double newPVP) {
         int result = 0;
         Connection con = null;

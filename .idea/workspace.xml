@@ -7,10 +7,11 @@
     <list default="true" id="396bcca0-2e99-4f56-8d38-e3491a3bfb04" name="Changes" comment="First commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Models/buyModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Models/buyModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/karolis/jdbc_sql_kj/Controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/karolis/jdbc_sql_kj/Controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/karolis/jdbc_sql_kj/Controller/buyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/karolis/jdbc_sql_kj/Controller/buyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/karolis/jdbc_sql_kj/TableInfo/Buy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/karolis/jdbc_sql_kj/TableInfo/Buy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/karolis/jdbc_sql_kj/mainView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/karolis/jdbc_sql_kj/mainView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Models/clientModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Models/clientModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Models/productModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Models/productModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/karolis/jdbc_sql_kj/CeliaShop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/karolis/jdbc_sql_kj/CeliaShop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/karolis/jdbc_sql_kj/TableInfo/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/karolis/jdbc_sql_kj/TableInfo/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/karolis/jdbc_sql_kj/TableInfo/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/karolis/jdbc_sql_kj/TableInfo/Product.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -2,9 +2,17 @@ package Models;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
-
+/**
+ * The buyModel class represents the model for handling buy-related operations in the Celia Shop application.
+ * This class includes methods for retrieving, inserting, deleting, modifying, and creating buy records.
+ * @author Karolis Jakas Stirbyte
+ */
 public class buyModel {
-
+    /**
+     * Retrieves information about all buy records from the database, this data refresh the tableView.
+     *
+     * @return A string containing information about all buy records.
+     */
     public String getBuys(){
         Connection con = null;
         String data = "";
@@ -19,10 +27,8 @@ public class buyModel {
                         "    INNER JOIN product\n" +
                         "    ON product.id = buy.id_product;");
                 while (rs.next()) {
-                    // Obtener la fecha como un objeto java.sql.Date
                     java.sql.Date dateSql = rs.getDate("buy_date");
 
-                    // Convertir la fecha en una cadena usando SimpleDateFormat
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                     String dateString = sdf.format(dateSql);
 
@@ -30,13 +36,20 @@ public class buyModel {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Error al acceder a la base de datos");
-            e.printStackTrace();
+            data = "";
         }
 
         return data;
     }
 
+    /**
+     * Inserts a new buy record into the database.
+     *
+     * @param clientID The ID of the client making the purchase.
+     * @param productID The ID of the product being purchased.
+     * @param date The date of the purchase in the format "dd/MM/yyyy".
+     * @return An integer indicating the success or failure of the operation.
+     */
     public int insertBuy(String clientID, String productID, String date) {
         int result = 0;
         Connection con = null;
@@ -58,6 +71,12 @@ public class buyModel {
         return result;
     }
 
+    /**
+     * Deletes a buy record from the database based on its ID.
+     *
+     * @param id The ID of the buy record to delete.
+     * @return An integer indicating the success or failure of the operation.
+     */
     public int deleteBuy(int id){
         int result = 0;
         Connection con = null;
@@ -75,6 +94,12 @@ public class buyModel {
         return result;
     }
 
+    /**
+     * Retrieves information about a specific buy record from the database based on its ID.
+     *
+     * @param inputID The ID of the buy record to retrieve information for.
+     * @return A string containing information about the specified buy record.
+     */
     public String getBuyInfo(int inputID){
         Connection con = null;
         String data = "";
@@ -96,12 +121,20 @@ public class buyModel {
             }
         }
         catch (Exception e) {
-            System.out.println("Error al acceder a la base de datos");
-            e.printStackTrace();
+            data = "";
         }
         return data;
     }
 
+    /**
+     * Modifies an existing buy record in the database.
+     *
+     * @param ID The ID of the buy record to modify.
+     * @param clientID The new ID of the client making the purchase.
+     * @param productID The new ID of the product being purchased.
+     * @param date The new date of the purchase in the format "dd/MM/yyyy".
+     * @return An integer indicating the success or failure of the operation.
+     */
     public int modifyBuy(int ID,String clientID, String productID, String date) {
         int result = 0;
         Connection con = null;
@@ -119,12 +152,15 @@ public class buyModel {
         }
         catch (Exception e) {
             result = -1;
-            System.out.println("ALGO TA MAL JEFE");
-            e.printStackTrace();
         }
         return result;
     }
 
+    /**
+     * Creates the buy table in the database if it does not already exist.
+     *
+     * @return An integer indicating the success or failure of the operation.
+     */
     public int createTable(){
         Connection con = null;
         int result = 0;

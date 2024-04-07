@@ -1,9 +1,17 @@
 package Models;
-
 import java.sql.*;
-
+/**
+ * The clientModel class represents the model for handling client-related operations in the Celia Shop application.
+ * This class includes methods for retrieving, inserting, deleting, modifying, and consulting client records.
+ *  * @author Karolis Jakas Stirbyte
+ */
 public class clientModel {
 
+    /**
+     * Retrieves information about all client records from the database, this data refresh the tableView.
+     *
+     * @return A string containing information about all client records.
+     */
     public String getClients(){
         Connection con = null;
         String data = "";
@@ -18,17 +26,22 @@ public class clientModel {
                 }
             }
         } catch (Exception e) {
-            data = "-1";
+            data = "";
         }
 
         return data;
     }
 
+    /**
+     * Retrieves detailed information about a specific client record from the database based on its ID.
+     *
+     * @param inputID The ID of the client record to retrieve information for.
+     * @return A string containing detailed information about the specified client record.
+     */
     public String consultClient(int inputID) {
         Connection con = null;
         String data = "";
 
-        int i = 0;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Ventas_JDBC", "root", "root");
@@ -49,12 +62,20 @@ public class clientModel {
             }
         }
         catch (Exception e) {
-            System.out.println("Error al acceder a la base de datos");
-            e.printStackTrace();
+            data = "";
         }
         return data;
     }
 
+    /**
+     * Inserts a new client record into the database.
+     *
+     * @param name The name of the new client.
+     * @param surname1 The first surname of the new client.
+     * @param surname2 The second surname of the new client.
+     * @param phone The phone number of the new client.
+     * @return An integer indicating the success or failure of the operation.
+     */
     public int insertClient(String name, String surname1, String surname2, String phone) {
         int result = 0;
         Connection con = null;
@@ -72,6 +93,12 @@ public class clientModel {
         return result;
     }
 
+    /**
+     * Deletes a client record from the database based on its ID.
+     *
+     * @param id The ID of the client record to delete.
+     * @return An integer indicating the success or failure of the operation.
+     */
     public int deleteClient(int id){
         int result = 0;
         Connection con = null;
@@ -90,6 +117,12 @@ public class clientModel {
         return result;
     }
 
+    /**
+     * Retrieves information about a specific client record from the database based on its ID.
+     *
+     * @param inputID The ID of the client record to retrieve information for.
+     * @return A string containing information about the specified client record.
+     */
     public String getClientInfo(int inputID){
         Connection con = null;
         String data = "";
@@ -106,12 +139,21 @@ public class clientModel {
             }
         }
         catch (Exception e) {
-            System.out.println("Error al acceder a la base de datos");
-            e.printStackTrace();
+            data = "";
         }
         return data;
     }
 
+    /**
+     * Modifies an existing client record in the database.
+     *
+     * @param ID The ID of the client record to modify.
+     * @param newName The new name of the client.
+     * @param newSurname1 The new first surname of the client.
+     * @param newSurname2 The new second surname of the client.
+     * @param newPhone The new phone number of the client.
+     * @return An integer indicating the success or failure of the operation.
+     */
     public int modifyClient(int ID,String newName, String newSurname1, String newSurname2, String newPhone) {
         int result = 0;
         Connection con = null;
