@@ -3,7 +3,7 @@ import java.sql.*;
 /**
  * The clientModel class represents the model for handling client-related operations in the Celia Shop application.
  * This class includes methods for retrieving, inserting, deleting, modifying, and consulting client records.
- *  * @author Karolis Jakas Stirbyte
+ * @author Karolis Jakas Stirbyte
  */
 public class clientModel {
 

@@ -285,6 +285,7 @@ public class MainController {
      */
     public void createTableButton(){
         buyController.createBuyTable();
+        refreshBuyTable();
     }
 
 }
