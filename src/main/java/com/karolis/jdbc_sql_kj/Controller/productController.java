@@ -7,30 +7,46 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
+/**
+ * Controller class for managing product-related operations.
+ * @author Karolis Jakas Stirbyte
+ */
 public class productController {
     productModel productModel = new productModel();
+    /**
+     * Retrieves information of all products, for the tableView
+     *
+     * @return Information of the products.
+     */
     public String getProductsInfo(){
         return productModel.getProducts();
     }
 
+    /**
+     * Creates a form to consult a product by its ID.
+     *
+     * @param VBox Container where the form will be added.
+     */
     public void consultFormProduct(VBox VBox){
         VBox.getChildren().clear();
         Label consultProductIdLabel = new Label("ID a consultar:");
         TextField consultProductIDField = new TextField();
 
-        // Crear un botón
         Button consultProductButton = new Button("Enviar");
 
-        // Definir el evento onAction del botón
         consultProductButton.setOnAction(e ->
                 consultProduct(consultProductIDField)
         );
 
         VBox.getChildren().addAll(consultProductIdLabel, consultProductIDField, consultProductButton);
-        VBox.setMargin(consultProductButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
+        VBox.setMargin(consultProductButton, new Insets(10, 0, 0, 0));
     }
 
+    /**
+     * Performs the action of consulting a product by its ID and give the information about a product.
+     *
+     * @param consultProductIDField TextField containing the product ID to consult.
+     */
     public void consultProduct(TextField consultProductIDField) {
         String input = consultProductIDField.getText();
 
@@ -47,6 +63,11 @@ public class productController {
         }
     }
 
+    /**
+     * Creates a form to add a new product.
+     *
+     * @param VBox Container where the form will be added.
+     */
     public void addProductForm(VBox VBox){
         VBox.getChildren().clear();
         Label nameLabel = new Label("Nombre:");
@@ -58,18 +79,23 @@ public class productController {
         Label PVPLabel = new Label("PVP:");
         TextField PVPField = new TextField();
 
-        // Crear un botón
         Button addProductButton = new Button("Enviar");
 
-        // Definir el evento onAction del botón
         addProductButton.setOnAction(e -> {
             addProduct(nameField, descriptionField, PVPField);
         });
 
         VBox.getChildren().addAll(nameLabel, nameField, descriptionLabel, descriptionField, PVPLabel, PVPField, addProductButton);
-        VBox.setMargin(addProductButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
+        VBox.setMargin(addProductButton, new Insets(10, 0, 0, 0));
     }
 
+    /**
+     * Adds a new product based on the provided information.
+     *
+     * @param name         TextField containing the name of the product.
+     * @param description  TextField containing the description of the product.
+     * @param PVP          TextField containing the price of the product.
+     */
     public void addProduct(TextField name, TextField description, TextField PVP) {
         String nameInput = name.getText();
         String descriptionInput = description.getText();
@@ -87,7 +113,7 @@ public class productController {
 
         Double PVPtype = 0.0;
         try {
-            PVPtype = Double.parseDouble(PVPInput); // Intenta convertir la cadena a double
+            PVPtype = Double.parseDouble(PVPInput);
         } catch (NumberFormatException e) {
             showAlert("Error", "El PVP debe ser decimal!");
             return;
@@ -104,23 +130,31 @@ public class productController {
 
     }
 
+    /**
+     * Creates a form to delete a product by its ID.
+     *
+     * @param VBox Container where the form will be added.
+     */
     public void deleteProductForm(VBox VBox){
         VBox.getChildren().clear();
         Label deleteProductIdLabel = new Label("ID Producto a borrar:");
         TextField deleteProductIDField = new TextField();
 
-        // Crear un botón
         Button deleteProductButton = new Button("Enviar");
 
-        // Definir el evento onAction del botón
         deleteProductButton.setOnAction(e -> {
             deleteProduct(deleteProductIDField);
         });
 
         VBox.getChildren().addAll(deleteProductIdLabel, deleteProductIDField, deleteProductButton);
-        VBox.setMargin(deleteProductButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
+        VBox.setMargin(deleteProductButton, new Insets(10, 0, 0, 0));
     }
 
+    /**
+     * Deletes a product based on the provided ID.
+     *
+     * @param deleteProduct TextField containing the ID of the product to delete.
+     */
     public void deleteProduct(TextField deleteProduct){
         String input = deleteProduct.getText();
 
@@ -140,15 +174,18 @@ public class productController {
         }
     }
 
+    /**
+     * Creates a form to search and modify a product by its ID.
+     *
+     * @param VBox Container where the form will be added.
+     */
     public void searchModifyProductForm(VBox VBox){
         VBox.getChildren().clear();
         Label modifyProductIdLabel = new Label("ID Producto a modificar:");
         TextField ProductIDField = new TextField();
 
-        // Crear un botón
         Button searchModifyProductButton = new Button("Enviar");
 
-        // Definir el evento onAction del botón
         searchModifyProductButton.setOnAction(e -> {
             String input = ProductIDField.getText();
 
@@ -165,9 +202,15 @@ public class productController {
         });
 
         VBox.getChildren().addAll(modifyProductIdLabel, ProductIDField, searchModifyProductButton);
-        VBox.setMargin(searchModifyProductButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
+        VBox.setMargin(searchModifyProductButton, new Insets(10, 0, 0, 0));
     }
 
+    /**
+     * Creates a form to modify a product based on the provided ID.
+     *
+     * @param VBox     Container where the form will be added.
+     * @param inputID  ID of the product to modify.
+     */
     public void modifyProductForm(VBox VBox, int inputID){
         VBox.getChildren().clear();
         String[] ProductData = productModel.getProductInfo(inputID).split(":");
@@ -184,18 +227,25 @@ public class productController {
         TextField PVPField = new TextField();
         PVPField.setText(ProductData[2]);
 
-        // Crear un botón
         Button modifyProductButton = new Button("Enviar");
 
-        // Definir el evento onAction del botón
         modifyProductButton.setOnAction(e -> {
             modifyProduct(inputID, nameField, descriptionField, PVPField, VBox);
         });
 
         VBox.getChildren().addAll(nameLabel, nameField, descriptionLabel, descriptionField, PVPLabel, PVPField, modifyProductButton);
-        VBox.setMargin(modifyProductButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
+        VBox.setMargin(modifyProductButton, new Insets(10, 0, 0, 0));
     }
 
+    /**
+     * Modifies a product based on the provided information.
+     *
+     * @param ID          ID of the product to modify.
+     * @param name        TextField containing the new name of the product.
+     * @param description TextField containing the new description of the product.
+     * @param PVP         TextField containing the new price of the product.
+     * @param VBox        Container where the form is located.
+     */
     public void modifyProduct(int ID,TextField name, TextField description, TextField PVP, VBox VBox) {
         String nameInput = name.getText();
         String descriptionInput = description.getText();
@@ -213,7 +263,7 @@ public class productController {
 
         Double PVPtype = 0.0;
         try {
-            PVPtype = Double.parseDouble(PVPInput); // Intenta convertir la cadena a double
+            PVPtype = Double.parseDouble(PVPInput);
         } catch (NumberFormatException e) {
             showAlert("Error", "El PVP debe ser decimal!");
             return;
@@ -229,34 +279,39 @@ public class productController {
 
     }
 
+    /**
+     * Displays information about a product in a pop-up window.
+     *
+     * @param data Information about the product.
+     */
     private void ProductInfo(String data){
         String[] formatedData = data.split(":");
 
-        // Crear un TextArea para mostrar la información del Producte
         TextArea ProducteInfoTextArea = new TextArea();
         ProducteInfoTextArea.setEditable(false);
 
-        // Configurar el TextArea con la información del Producte
         ProducteInfoTextArea.setText("Nombre producto: " + formatedData[0] + "\nDescripcion del producto: " + formatedData[1] + "\nPVP: " + formatedData[2]);
 
-        // Crear un diseño para la ventana emergente
         VBox root = new VBox(10);
         root.setPadding(new Insets(10));
         root.getChildren().add(ProducteInfoTextArea);
 
-        // Configurar la escena
         Scene scene = new Scene(root, 600, 400);
 
-        // Configurar el nuevo Stage como modal
         Stage popUpStage = new Stage();
         popUpStage.initModality(Modality.APPLICATION_MODAL);
         popUpStage.setTitle("Información del Producte");
         popUpStage.setScene(scene);
 
-        // Mostrar el nuevo Stage
         popUpStage.show();
     }
 
+    /**
+     * Checks if a string is numeric.
+     *
+     * @param str String to check.
+     * @return True if the string is numeric, false otherwise.
+     */
     private boolean isNumeric(String str) {
         if (str == null || str.length() == 0) {
             return false;
@@ -269,6 +324,12 @@ public class productController {
         }
     }
 
+    /**
+     * Displays an alert with the given title and message.
+     *
+     * @param title   Title of the alert.
+     * @param message Message to display in the alert.
+     */
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

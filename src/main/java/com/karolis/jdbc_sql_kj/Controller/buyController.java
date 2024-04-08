@@ -8,37 +8,58 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for managing buy-related operations.
+ * @author Karolis Jakas Stirbyte
+ */
 public class buyController {
     buyModel buyModel = new buyModel();
+    /**
+     * Creates the buy table. This method is requested by the teacher.
+     */
     public void createBuyTable(){
         int result = 0;
 
         result = buyModel.createTable();
-        if(result == -1) System.out.println("Error BBDD!");
-        else System.out.println("Tabla creada!");
+
+        if(result == -1) showAlert("Error", "Error al conectarse a la base de datos!");
+        else showAlert("Exito", "Tabla creada con exito!");
     }
 
+    /**
+     * Retrieves information about all buys, for the tableView
+     *
+     * @return Information about all buys.
+     */
     public String getBuyInfo() {
         return buyModel.getBuys();
     }
 
+    /**
+     * Creates a form to consult a buy by its ID.
+     *
+     * @param VBox Container where the form will be added.
+     */
     public void consultFormBuy(VBox VBox){
         VBox.getChildren().clear();
         Label consultBuyIdLabel = new Label("ID a consultar:");
         TextField consultBuyIDField = new TextField();
 
-        // Crear un botón
         Button consultBuyButton = new Button("Enviar");
 
-        // Definir el evento onAction del botón
         consultBuyButton.setOnAction(e ->
                 consultBuy(consultBuyIDField)
         );
 
         VBox.getChildren().addAll(consultBuyIdLabel, consultBuyIDField, consultBuyButton);
-        VBox.setMargin(consultBuyButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
+        VBox.setMargin(consultBuyButton, new Insets(10, 0, 0, 0));
     }
 
+    /**
+     * Performs the action of consulting a buy by its ID.
+     *
+     * @param consultBuyIDField TextField containing the buy ID to consult.
+     */
     public void consultBuy(TextField consultBuyIDField) {
         String input = consultBuyIDField.getText();
 
@@ -55,6 +76,11 @@ public class buyController {
         }
     }
 
+    /**
+     * Creates a form to add a new buy.
+     *
+     * @param VBox Container where the form will be added.
+     */
     public void addBuyForm(VBox VBox){
         VBox.getChildren().clear();
         Label clientLabel = new Label("ID_cliente");
@@ -66,18 +92,23 @@ public class buyController {
         Label dateLabel = new Label("Fecha:");
         TextField dateField = new TextField();
 
-        // Crear un botón
         Button addBuyButton = new Button("Enviar");
 
-        // Definir el evento onAction del botón
         addBuyButton.setOnAction(e -> {
             addBuy(clientField, productField, dateField);
         });
 
         VBox.getChildren().addAll(clientLabel, clientField, productLabel, productField, dateLabel, dateField, addBuyButton);
-        VBox.setMargin(addBuyButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
+        VBox.setMargin(addBuyButton, new Insets(10, 0, 0, 0));
     }
 
+    /**
+     * Adds a new buy based on the provided information.
+     *
+     * @param id_client TextField containing the client ID for the buy.
+     * @param id_product TextField containing the product ID for the buy.
+     * @param date       TextField containing the date of the buy.
+     */
     public void addBuy(TextField id_client, TextField id_product, TextField date) {
         String clientInput = id_client.getText();
         String productInput = id_product.getText();
@@ -111,23 +142,31 @@ public class buyController {
         }
     }
 
+    /**
+     * Creates a form to delete a buy by its ID.
+     *
+     * @param VBox Container where the form will be added.
+     */
     public void deleteBuyForm(VBox VBox){
         VBox.getChildren().clear();
         Label deleteBuyIdLabel = new Label("ID venta a borrar:");
         TextField deleteBuyIDField = new TextField();
 
-        // Crear un botón
         Button deleteBuyButton = new Button("Enviar");
 
-        // Definir el evento onAction del botón
         deleteBuyButton.setOnAction(e -> {
             deleteBuy(deleteBuyIDField);
         });
 
         VBox.getChildren().addAll(deleteBuyIdLabel, deleteBuyIDField, deleteBuyButton);
-        VBox.setMargin(deleteBuyButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
+        VBox.setMargin(deleteBuyButton, new Insets(10, 0, 0, 0));
     }
 
+    /**
+     * Deletes a buy based on the provided ID.
+     *
+     * @param deleteBuy TextField containing the ID of the buy to delete.
+     */
     public void deleteBuy(TextField deleteBuy){
         String input = deleteBuy.getText();
 
@@ -146,15 +185,18 @@ public class buyController {
         }
     }
 
+    /**
+     * Creates a form to search and modify a buy by its ID.
+     *
+     * @param VBox Container where the form will be added.
+     */
     public void searchModifyBuyForm(VBox VBox){
         VBox.getChildren().clear();
         Label modifyBuyIdLabel = new Label("ID venta a modificar:");
         TextField BuyIDField = new TextField();
 
-        // Crear un botón
         Button searchModifyBuyButton = new Button("Enviar");
 
-        // Definir el evento onAction del botón
         searchModifyBuyButton.setOnAction(e -> {
             String input = BuyIDField.getText();
 
@@ -171,9 +213,15 @@ public class buyController {
         });
 
         VBox.getChildren().addAll(modifyBuyIdLabel, BuyIDField, searchModifyBuyButton);
-        VBox.setMargin(searchModifyBuyButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
+        VBox.setMargin(searchModifyBuyButton, new Insets(10, 0, 0, 0));
     }
 
+    /**
+     * Creates a form to modify a buy based on the provided ID.
+     *
+     * @param VBox    Container where the form will be added.
+     * @param inputID ID of the buy to modify.
+     */
     public void modifyBuyForm(VBox VBox, int inputID){
         VBox.getChildren().clear();
         String[] BuyData = buyModel.getBuyInfo(inputID).split(":");
@@ -190,18 +238,25 @@ public class buyController {
         TextField PVPField = new TextField();
         PVPField.setText(BuyData[2]);
 
-        // Crear un botón
         Button modifyBuyButton = new Button("Enviar");
 
-        // Definir el evento onAction del botón
         modifyBuyButton.setOnAction(e -> {
             modifyBuy(inputID, nameField, descriptionField, PVPField, VBox);
         });
 
         VBox.getChildren().addAll(nameLabel, nameField, descriptionLabel, descriptionField, PVPLabel, PVPField, modifyBuyButton);
-        VBox.setMargin(modifyBuyButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
+        VBox.setMargin(modifyBuyButton, new Insets(10, 0, 0, 0));
     }
 
+    /**
+     * Modifies a buy based on the provided information.
+     *
+     * @param ID         ID of the buy to modify.
+     * @param id_client  TextField containing the new client ID for the buy.
+     * @param id_product TextField containing the new product ID for the buy.
+     * @param date       TextField containing the new date of the buy.
+     * @param VBox       Container where the form is located.
+     */
     public void modifyBuy(int ID,TextField id_client, TextField id_product, TextField date, VBox VBox) {
         String clientInput = id_client.getText();
         String productInput = id_product.getText();
@@ -238,34 +293,39 @@ public class buyController {
 
     }
 
+    /**
+     * Displays information about a buy in a pop-up window.
+     *
+     * @param data Information about the buy.
+     */
     private void BuyInfo(String data){
         String[] formatedData = data.split(":");
 
-        // Crear un TextArea para mostrar la información del Buye
         TextArea BuyeInfoTextArea = new TextArea();
         BuyeInfoTextArea.setEditable(false);
 
-        // Configurar el TextArea con la información del Buye
         BuyeInfoTextArea.setText("ID cliente: " + formatedData[0] + "\nID producto: " + formatedData[1] + "\nFecha: " + formatedData[2]);
 
-        // Crear un diseño para la ventana emergente
         VBox root = new VBox(10);
         root.setPadding(new Insets(10));
         root.getChildren().add(BuyeInfoTextArea);
 
-        // Configurar la escena
         Scene scene = new Scene(root, 600, 400);
 
-        // Configurar el nuevo Stage como modal
         Stage popUpStage = new Stage();
         popUpStage.initModality(Modality.APPLICATION_MODAL);
         popUpStage.setTitle("Información de la venta");
         popUpStage.setScene(scene);
 
-        // Mostrar el nuevo Stage
         popUpStage.show();
     }
 
+    /**
+     * Checks if a string is numeric.
+     *
+     * @param str String to check.
+     * @return True if the string is numeric, false otherwise.
+     */
     private boolean isNumeric(String str) {
         if (str == null || str.length() == 0) {
             return false;
@@ -278,6 +338,12 @@ public class buyController {
         }
     }
 
+    /**
+     * Displays an alert with the given title and message.
+     *
+     * @param title   Title of the alert.
+     * @param message Message to display in the alert.
+     */
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -286,6 +352,12 @@ public class buyController {
         alert.showAndWait();
     }
 
+    /**
+     * Checks if a date string has a valid format (DD/MM/YYYY).
+     *
+     * @param str Date string to check.
+     * @return True if the date string has a valid format, false otherwise.
+     */
     private boolean isValidDate(String str) {
         if (!str.matches("\\d{2}/\\d{2}/\\d{4}")) {
             return false;

@@ -9,13 +9,17 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
+/**
+ * Controller class for managing client-related operations.
+ * @author Karolis Jakas Stirbyte
+ */
 public class clientController {
     private MainController MainController;
 
     /**
-     * Sets the main controller. So we can use the refreshTable method
-     * @param MainController The primary controller to set.
+     * Sets the main controller.
+     *
+     * @param MainController The main controller instance to set.
      */
     public void setMainController(MainController MainController) {
         this.MainController = MainController;
@@ -23,26 +27,40 @@ public class clientController {
 
     clientModel clientModel = new clientModel();
 
+    /**
+     * Retrieves information of all clients, for the tableView
+     *
+     * @return Information of the clients.
+     */
     public String getClientsInfo(){
         return clientModel.getClients();
     }
+
+    /**
+     * Creates a form to consult a client by their ID.
+     *
+     * @param VBox Container where the form will be added.
+     */
     public void consultFormClient(VBox VBox){
         VBox.getChildren().clear();
         Label consultClientIdLabel = new Label("ID cliente a consultar:");
         TextField consultClientIDField = new TextField();
 
-        // Crear un botón
         Button consultClientButton = new Button("Enviar");
 
-        // Definir el evento onAction del botón
         consultClientButton.setOnAction(e ->
                 consultClient(consultClientIDField)
         );
 
         VBox.getChildren().addAll(consultClientIdLabel, consultClientIDField, consultClientButton);
-        VBox.setMargin(consultClientButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
+        VBox.setMargin(consultClientButton, new Insets(10, 0, 0, 0));
     }
 
+    /**
+     * Performs the action of consulting a client by their ID.
+     *
+     * @param consultClientIDField TextField containing the client ID to consult.
+     */
     public void consultClient(TextField consultClientIDField) {
         String input = consultClientIDField.getText();
 
@@ -59,6 +77,11 @@ public class clientController {
         }
     }
 
+    /**
+     * Creates a form to add a new client.
+     *
+     * @param VBox Container where the form will be added.
+     */
     public void addClientForm(VBox VBox){
         VBox.getChildren().clear();
         Label nameLabel = new Label("Nombre:");
@@ -73,18 +96,24 @@ public class clientController {
         Label phoneLabel = new Label("Telefono:");
         TextField phoneField = new TextField();
 
-        // Crear un botón
         Button addClientButton = new Button("Enviar");
 
-        // Definir el evento onAction del botón
         addClientButton.setOnAction(e -> {
             addClient(nameField, surname1Field, surname2Field, phoneField);
         });
 
         VBox.getChildren().addAll(nameLabel, nameField, surname1Label, surname1Field, surname2Label, surname2Field, phoneLabel, phoneField, addClientButton);
-        VBox.setMargin(addClientButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
+        VBox.setMargin(addClientButton, new Insets(10, 0, 0, 0));
     }
 
+    /**
+     * Adds a new client based on the provided information.
+     *
+     * @param name  TextField containing the name of the client.
+     * @param sur1  TextField containing the first surname of the client.
+     * @param sur2  TextField containing the second surname of the client.
+     * @param phone TextField containing the phone number of the client.
+     */
     public void addClient(TextField name, TextField sur1, TextField sur2, TextField phone) {
         String nameInput = name.getText();
         String surname1Input = sur1.getText();
@@ -120,23 +149,31 @@ public class clientController {
 
     }
 
+    /**
+     * Creates a form to delete a client by their ID.
+     *
+     * @param VBox Container where the form will be added.
+     */
     public void deleteClientForm(VBox VBox){
         VBox.getChildren().clear();
         Label deleteClientIdLabel = new Label("ID cliente a borrar:");
         TextField deleteClientIDField = new TextField();
 
-        // Crear un botón
         Button deleteClientButton = new Button("Enviar");
 
-        // Definir el evento onAction del botón
         deleteClientButton.setOnAction(e -> {
             deleteClient(deleteClientIDField);
         });
 
         VBox.getChildren().addAll(deleteClientIdLabel, deleteClientIDField, deleteClientButton);
-        VBox.setMargin(deleteClientButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
+        VBox.setMargin(deleteClientButton, new Insets(10, 0, 0, 0));
     }
 
+    /**
+     * Deletes a client based on the provided ID.
+     *
+     * @param deleteClient TextField containing the ID of the client to delete.
+     */
     public void deleteClient(TextField deleteClient){
         String input = deleteClient.getText();
 
@@ -156,15 +193,18 @@ public class clientController {
         }
     }
 
+    /**
+     * Creates a form to search and modify a client by their ID.
+     *
+     * @param VBox Container where the form will be added.
+     */
     public void searchModifyClientForm(VBox VBox){
         VBox.getChildren().clear();
         Label modifyClientIdLabel = new Label("ID cliente a modificar:");
         TextField clientIDField = new TextField();
 
-        // Crear un botón
         Button searchModifyClientButton = new Button("Enviar");
 
-        // Definir el evento onAction del botón
         searchModifyClientButton.setOnAction(e -> {
             String input = clientIDField.getText();
 
@@ -181,9 +221,15 @@ public class clientController {
         });
 
         VBox.getChildren().addAll(modifyClientIdLabel, clientIDField, searchModifyClientButton);
-        VBox.setMargin(searchModifyClientButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
+        VBox.setMargin(searchModifyClientButton, new Insets(10, 0, 0, 0));
     }
 
+    /**
+     * Creates a form to modify a client based on the provided ID.
+     *
+     * @param VBox    Container where the form will be added.
+     * @param inputID ID of the client to modify.
+     */
     public void modifyClientForm(VBox VBox, int inputID){
         VBox.getChildren().clear();
         String[] clientData = clientModel.getClientInfo(inputID).split(":");
@@ -204,18 +250,26 @@ public class clientController {
         TextField phoneField = new TextField();
         phoneField.setText(clientData[3]);
 
-        // Crear un botón
         Button modifyClientButton = new Button("Enviar");
 
-        // Definir el evento onAction del botón
         modifyClientButton.setOnAction(e -> {
             modifyClient(inputID, nameField, surname1Field, surname2Field, phoneField, VBox);
         });
 
         VBox.getChildren().addAll(nameLabel, nameField, surname1Label, surname1Field, surname2Label, surname2Field, phoneLabel, phoneField, modifyClientButton);
-        VBox.setMargin(modifyClientButton, new Insets(10, 0, 0, 0)); // top, right, bottom, left
+        VBox.setMargin(modifyClientButton, new Insets(10, 0, 0, 0));
     }
 
+    /**
+     * Modifies a client based on the provided information.
+     *
+     * @param ID    ID of the client to modify.
+     * @param name  TextField containing the new name of the client.
+     * @param sur1  TextField containing the new first surname of the client.
+     * @param sur2  TextField containing the new second surname of the client.
+     * @param phone TextField containing the new phone number of the client.
+     * @param VBox  Container where the form is located.
+     */
     public void modifyClient(int ID,TextField name, TextField sur1, TextField sur2, TextField phone, VBox VBox) {
         String nameInput = name.getText();
         String surname1Input = sur1.getText();
@@ -253,32 +307,37 @@ public class clientController {
 
     }
 
+    /**
+     * Displays information about a client in a pop-up window.
+     *
+     * @param data Information about the client.
+     */
     private void clientInfo(String data){
-        // Crear un TextArea para mostrar la información del cliente
         TextArea clienteInfoTextArea = new TextArea();
         clienteInfoTextArea.setEditable(false);
 
-        // Configurar el TextArea con la información del cliente
         clienteInfoTextArea.setText(data);
 
-        // Crear un diseño para la ventana emergente
         VBox root = new VBox(10);
         root.setPadding(new Insets(10));
         root.getChildren().add(clienteInfoTextArea);
 
-        // Configurar la escena
         Scene scene = new Scene(root, 600, 400);
 
-        // Configurar el nuevo Stage como modal
         Stage popUpStage = new Stage();
         popUpStage.initModality(Modality.APPLICATION_MODAL);
         popUpStage.setTitle("Información del Producto");
         popUpStage.setScene(scene);
 
-        // Mostrar el nuevo Stage
         popUpStage.show();
     }
 
+    /**
+     * Checks if a string is numeric.
+     *
+     * @param str String to check.
+     * @return True if the string is numeric, false otherwise.
+     */
     private boolean isNumeric(String str) {
         if (str == null || str.length() == 0) {
             return false;
@@ -291,6 +350,12 @@ public class clientController {
         }
     }
 
+    /**
+     * Displays an alert with the given title and message.
+     *
+     * @param title   Title of the alert.
+     * @param message Message to display in the alert.
+     */
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

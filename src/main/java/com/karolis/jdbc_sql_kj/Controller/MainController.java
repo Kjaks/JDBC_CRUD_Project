@@ -10,7 +10,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
-
+/**
+ * The MainController class controls the main functionality of the Celia Shop application.
+ * This class handles the display and manipulation of data in the TableView components.
+ * @author Karolis Jakas Stirbyte
+ */
 public class MainController {
     private static MainController instance;
 
@@ -19,7 +23,7 @@ public class MainController {
     }
 
     /**
-     * Returns the instance of MainController, this method is used for refreshing the table in the other controllers.
+     * Returns the instance of MainController, used for refreshing the table in other controllers.
      * @return The instance of MainController.
      */
     public static MainController getInstance() {
@@ -76,6 +80,9 @@ public class MainController {
     clientController clientController = new clientController();
     productController productController = new productController();
 
+    /**
+     * Initializes the MainController, setting up the TableView columns and refreshing the tables.
+     */
     @FXML
     public void initialize() {
         clientIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -98,14 +105,15 @@ public class MainController {
         refreshBuyTable();
     }
 
+    /**
+     * Refreshes the client table by fetching data from the database and populating the table.
+     */
     @FXML
     public void refreshClientTable() {
         String fullClientText = clientController.getClientsInfo();
 
-        // Limpiar la lista existente antes de agregar los nuevos clientes.
         clientData.clear();
 
-        // Separar el texto completo en partes que representan un cliente cada una
         String[] clientStringData = fullClientText.split(":");
 
         /**
@@ -124,19 +132,17 @@ public class MainController {
         clientTable.setItems(clientData);
     }
 
+    /**
+     * Refreshes the product table by fetching data from the database and populating the table.
+     */
     @FXML
     public void refreshProductTable() {
         String fullProductText = productController.getProductsInfo();
 
-        // Limpiar la lista existente antes de agregar los nuevos clientes.
         productData.clear();
 
-        // Separar el texto completo en partes que representan un cliente cada una
         String[] productStringData = fullProductText.split(":");
 
-        /**
-         * Iterates over array and puts the data in the table
-         */
         for(int i = 0; i < productStringData.length - 1;i+= 4){
             int id = Integer.parseInt(productStringData[i]);
             String name = productStringData[i + 1];
@@ -149,19 +155,17 @@ public class MainController {
         productTable.setItems(productData);
     }
 
+    /**
+     * Refreshes the buy table by fetching data from the database and populating the table.
+     */
     @FXML
     public void refreshBuyTable(){
         String fullBuyText = buyController.getBuyInfo();
 
-        // Limpiar la lista existente antes de agregar los nuevos clientes.
         buyData.clear();
 
-        // Separar el texto completo en partes que representan un cliente cada una
         String[] buyStringData = fullBuyText.split(":");
 
-        /**
-         * Iterates over array and puts the data in the table
-         */
         for(int i = 0; i < buyStringData.length - 1;i+= 4){
             int id = Integer.parseInt(buyStringData[i]);
             String client_name = buyStringData[i + 1];
@@ -174,63 +178,111 @@ public class MainController {
         buyTable.setItems(buyData);
     }
 
+    /**
+     * Opens a form to consult client information.
+     */
     public void consultClient(){
         clientController.consultFormClient(clientVBox);
     }
 
+    /**
+     * Opens a form to add a new client.
+     * Refreshes the client table after adding.
+     */
     public void addClient(){
         clientController.addClientForm(clientVBox);
         refreshClientTable();
     }
 
+    /**
+     * Opens a form to delete a client.
+     * Refreshes the client table after deletion.
+     */
     public void deleteClient(){
         clientController.deleteClientForm(clientVBox);
         refreshClientTable();
     }
 
+    /**
+     * Opens a form to modify client information.
+     * Refreshes the client table after modification.
+     */
     public void modifyClient(){
         clientController.searchModifyClientForm(clientVBox);
         refreshClientTable();
     }
 
+    /**
+     * Opens a form to consult product information.
+     */
     public void consultProduct(){
         productController.consultFormProduct(productVBox);
     }
 
+    /**
+     * Opens a form to add a new product.
+     * Refreshes the product table after adding.
+     */
     public void addProduct(){
         productController.addProductForm(productVBox);
         refreshProductTable();
     }
 
+    /**
+     * Opens a form to delete a product.
+     * Refreshes the product table after deletion.
+     */
     public void deleteProduct(){
         productController.deleteProductForm(productVBox);
         refreshProductTable();
     }
 
+    /**
+     * Opens a form to modify product information.
+     * Refreshes the product table after modification.
+     */
     public void modifyProduct(){
         productController.searchModifyProductForm(productVBox);
         refreshProductTable();
     }
 
+    /**
+     * Opens a form to consult buy information.
+     */
     public void consultBuy(){
         buyController.consultFormBuy(buyVBox);
     }
 
+    /**
+     * Opens a form to add a new buy.
+     * Refreshes the buy table after adding.
+     */
     public void addBuy(){
         buyController.addBuyForm(buyVBox);
         refreshBuyTable();
     }
 
+    /**
+     * Opens a form to delete a buy.
+     * Refreshes the buy table after deletion.
+     */
     public void deleteBuy(){
         buyController.deleteBuyForm(buyVBox);
         refreshBuyTable();
     }
 
+    /**
+     * Opens a form to modify buy information.
+     * Refreshes the buy table after modification.
+     */
     public void modifyBuy(){
         buyController.searchModifyBuyForm(buyVBox);
         refreshBuyTable();
     }
 
+    /**
+     * Creates a table for storing buy information. This method is requested by the teacher.
+     */
     public void createTableButton(){
         buyController.createBuyTable();
     }
