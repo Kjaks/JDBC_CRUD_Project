@@ -12,6 +12,7 @@ import javafx.stage.Stage;
  * @author Karolis Jakas Stirbyte
  */
 public class productController {
+
     productModel productModel = new productModel();
     /**
      * Retrieves information of all products, for the tableView

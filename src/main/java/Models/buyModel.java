@@ -8,6 +8,10 @@ import java.text.SimpleDateFormat;
  * @author Karolis Jakas Stirbyte
  */
 public class buyModel {
+    private final String url = "jdbc:mysql://localhost:3306/Ventas_JDBC";
+    private final String user = "root";
+    private final String password = "root";
+
     /**
      * Retrieves information about all buy records from the database, this data refresh the tableView.
      *
@@ -18,7 +22,7 @@ public class buyModel {
         String data = "";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Ventas_JDBC", "root", "root");
+            con = DriverManager.getConnection(url, user, password);
             if (con != null) {
                 Statement st = con.createStatement();
                 ResultSet rs = st.executeQuery("SELECT buy.id, id_client, id_product, client_name, product_name, buy_date\n" +
@@ -53,19 +57,24 @@ public class buyModel {
     public int insertBuy(String clientID, String productID, String date) {
         int result = 0;
         Connection con = null;
+        PreparedStatement pst = null;
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Ventas_JDBC", "root", "root");
+            con = DriverManager.getConnection(url, user, password);
             if (con != null) {
-                Statement st = con.createStatement();
-                String[] formatedDate = date.split("/");
-                String formatedDateForSQL = formatedDate[2] + "-" + formatedDate[1] + "-" + formatedDate[0];
+                String query = "INSERT INTO buy(id_client, id_product, buy_date) VALUES (?, ?, ?)";
+                pst = con.prepareStatement(query);
+                pst.setString(1, clientID);
+                pst.setString(2, productID);
 
-                st.executeUpdate("INSERT INTO buy(id_client, id_product, buy_date) VALUES ('" + clientID + "', '" + productID + "', '" + formatedDateForSQL + "')" + ";");
+                String[] formattedDate = date.split("/");
+                String formattedDateForSQL = formattedDate[2] + "-" + formattedDate[1] + "-" + formattedDate[0];
 
+                pst.setString(3, formattedDateForSQL);
+                result = pst.executeUpdate();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             result = -1;
         }
         return result;
@@ -77,18 +86,21 @@ public class buyModel {
      * @param id The ID of the buy record to delete.
      * @return An integer indicating the success or failure of the operation.
      */
-    public int deleteBuy(int id){
+    public int deleteBuy(int id) {
         int result = 0;
         Connection con = null;
+        PreparedStatement pst = null;
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Ventas_JDBC", "root", "root");
+            con = DriverManager.getConnection(url, user, password);
             if (con != null) {
-                Statement st = con.createStatement();
-                st.executeUpdate("DELETE FROM buy WHERE id = " + id + ";");
+                String query = "DELETE FROM buy WHERE id = ?";
+                pst = con.prepareStatement(query);
+                pst.setInt(1, id);
+                result = pst.executeUpdate();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             result = -1;
         }
         return result;
@@ -100,16 +112,18 @@ public class buyModel {
      * @param inputID The ID of the buy record to retrieve information for.
      * @return A string containing information about the specified buy record.
      */
-    public String getBuyInfo(int inputID){
+    public String getBuyInfo(int inputID) {
         Connection con = null;
         String data = "";
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Ventas_JDBC", "root", "root");
+            con = DriverManager.getConnection(url, user, password);
             if (con != null) {
-                Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery("SELECT * FROM buy WHERE id = " + inputID + ";");
+                String query = "SELECT * FROM buy WHERE id = ?";
+                PreparedStatement pst = con.prepareStatement(query);
+                pst.setInt(1, inputID);
+                ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
                     java.sql.Date dateSql = rs.getDate("buy_date");
 
@@ -119,8 +133,7 @@ public class buyModel {
                     data += rs.getString("id_client") + ":" + rs.getString("id_product") + ":" + dateString + ":";
                 }
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             data = "";
         }
         return data;
@@ -135,22 +148,28 @@ public class buyModel {
      * @param date The new date of the purchase in the format "dd/MM/yyyy".
      * @return An integer indicating the success or failure of the operation.
      */
-    public int modifyBuy(int ID,String clientID, String productID, String date) {
+    public int modifyBuy(int ID, String clientID, String productID, String date) {
         int result = 0;
         Connection con = null;
+        PreparedStatement pst = null;
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Ventas_JDBC", "root", "root");
+            con = DriverManager.getConnection(url, user, password);
             if (con != null) {
-                Statement st = con.createStatement();
+                String query = "UPDATE buy SET id_client = ?, id_product = ?, buy_date = ? WHERE id = ?";
+                pst = con.prepareStatement(query);
+                pst.setString(1, clientID);
+                pst.setString(2, productID);
 
-                String[] formatedDate = date.split("/");
-                String formatedDateForSQL = formatedDate[2] + "-" + formatedDate[1] + "-" + formatedDate[0];
+                String[] formattedDate = date.split("/");
+                String formattedDateForSQL = formattedDate[2] + "-" + formattedDate[1] + "-" + formattedDate[0];
 
-                st.executeUpdate("UPDATE buy SET id_client = '" + clientID + "', id_product = '" + productID + "', buy_date = '" + formatedDateForSQL + "' WHERE id = " + ID + ";");
+                pst.setString(3, formattedDateForSQL);
+                pst.setInt(4, ID);
+                result = pst.executeUpdate();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             result = -1;
         }
         return result;
@@ -166,7 +185,7 @@ public class buyModel {
         int result = 0;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Ventas_JDBC", "root", "root");
+            con = DriverManager.getConnection(url, user, password);
             if (con != null) {
                 Statement st = con.createStatement();
                 st.executeUpdate("CREATE TABLE buy ( id INT AUTO_INCREMENT PRIMARY KEY, id_client INT, id_product INT, buy_date DATE, FOREIGN KEY (id_client) REFERENCES clients(id), FOREIGN KEY (id_product) REFERENCES product(id));");

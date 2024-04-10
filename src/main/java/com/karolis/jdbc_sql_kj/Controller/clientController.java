@@ -146,6 +146,7 @@ public class clientController {
         phone.clear();
         clientModel.insertClient(nameInput, surname1Input, surname2Input ,phoneInput);
         MainController.getInstance().refreshClientTable();
+        showAlert("Cliente añadido!", "Cliente añadido con exito!");
 
     }
 

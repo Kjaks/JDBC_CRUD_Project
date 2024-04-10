@@ -6,6 +6,9 @@ import java.sql.*;
  * @author Karolis Jakas Stirbyte
  */
 public class clientModel {
+    private final String url = "jdbc:mysql://localhost:3306/Ventas_JDBC";
+    private final String user = "root";
+    private final String password = "root";
 
     /**
      * Retrieves information about all client records from the database, this data refresh the tableView.
@@ -17,7 +20,7 @@ public class clientModel {
         String data = "";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Ventas_JDBC", "root", "root");
+            con = DriverManager.getConnection(url, user, password);
             if (con != null) {
                 Statement st = con.createStatement();
                 ResultSet rs = st.executeQuery("SELECT * FROM clients;");
@@ -44,17 +47,22 @@ public class clientModel {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Ventas_JDBC", "root", "root");
+            con = DriverManager.getConnection(url, user, password);
             if (con != null) {
-                Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery("SELECT * FROM clients WHERE id = " + inputID + ";");
+                String queryClient = "SELECT * FROM clients WHERE id = ?";
+                PreparedStatement pstClient = con.prepareStatement(queryClient);
+                pstClient.setInt(1, inputID);
+                ResultSet rs = pstClient.executeQuery();
                 while (rs.next()) {
                     data += "ID:" + rs.getInt("ID") + " - Nombre: " + rs.getString("client_name") + " " + rs.getString("surname1") + " " + rs.getString("surname2") + " - Telefono: " + rs.getString("phone") + "\n\n";
                 }
 
                 if (!data.equals("")) data += "Productos comprados:";
 
-                ResultSet rsproduct = st.executeQuery("SELECT product_name, product_description FROM clients INNER JOIN buy ON buy.id_client = clients.id INNER JOIN product ON product.id = buy.id_product WHERE clients.id = " + inputID + ";");
+                String queryProducts = "SELECT product_name, product_description FROM clients INNER JOIN buy ON buy.id_client = clients.id INNER JOIN product ON product.id = buy.id_product WHERE clients.id = ?";
+                PreparedStatement pstProducts = con.prepareStatement(queryProducts);
+                pstProducts.setInt(1, inputID);
+                ResultSet rsproduct = pstProducts.executeQuery();
 
                 while (rsproduct.next()){
                     data += "\n" +  "Nombre: " + rsproduct.getString("product_name") + " - Descripcion: " + rsproduct.getString("product_description");
@@ -79,12 +87,20 @@ public class clientModel {
     public int insertClient(String name, String surname1, String surname2, String phone) {
         int result = 0;
         Connection con = null;
+        PreparedStatement pst = null;
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Ventas_JDBC", "root", "root");
+            con = DriverManager.getConnection(url, user, password);
             if (con != null) {
-                Statement st = con.createStatement();
-                st.executeUpdate("INSERT INTO clients(client_name, surname1, surname2, phone) VALUES ('" + name + "', '" + surname1 + "', '" + surname2 + "', '" + phone + "')" + ";");
+                String query = "INSERT INTO clients(client_name, surname1, surname2, phone) VALUES (?, ?, ?, ?)";
+                pst = con.prepareStatement(query);
+                pst.setString(1, name);
+                pst.setString(2, surname1);
+                pst.setString(3, surname2);
+                pst.setString(4, phone);
+                pst.executeUpdate();
+                con.commit();
             }
         }
         catch (Exception e) {
@@ -99,19 +115,27 @@ public class clientModel {
      * @param id The ID of the client record to delete.
      * @return An integer indicating the success or failure of the operation.
      */
-    public int deleteClient(int id){
+    public int deleteClient(int id) {
         int result = 0;
         Connection con = null;
+        PreparedStatement pst = null;
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Ventas_JDBC", "root", "root");
+            con = DriverManager.getConnection(url, user, password);
+
             if (con != null) {
-                Statement st = con.createStatement();
-                st.executeUpdate("DELETE FROM buy WHERE id_client = " + id + ";");
-                st.executeUpdate("DELETE FROM clients WHERE id = " + id + ";");
+                String deleteBuyQuery = "DELETE FROM buy WHERE id_client = ?";
+                pst = con.prepareStatement(deleteBuyQuery);
+                pst.setInt(1, id);
+                pst.executeUpdate();
+
+                String deleteClientQuery = "DELETE FROM clients WHERE id = ?";
+                pst = con.prepareStatement(deleteClientQuery);
+                pst.setInt(1, id);
+                pst.executeUpdate();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             result = -1;
         }
         return result;
@@ -123,22 +147,23 @@ public class clientModel {
      * @param inputID The ID of the client record to retrieve information for.
      * @return A string containing information about the specified client record.
      */
-    public String getClientInfo(int inputID){
+    public String getClientInfo(int inputID) {
         Connection con = null;
         String data = "";
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Ventas_JDBC", "root", "root");
+            con = DriverManager.getConnection(url, user, password);
             if (con != null) {
-                Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery("SELECT * FROM clients WHERE id = " + inputID + ";");
+                String query = "SELECT * FROM clients WHERE id = ?";
+                PreparedStatement pst = con.prepareStatement(query);
+                pst.setInt(1, inputID);
+                ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
                     data += rs.getString("client_name") + ":" + rs.getString("surname1") + ":" + rs.getString("surname2") + ":" + rs.getString("phone") + ":";
                 }
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             data = "";
         }
         return data;
@@ -154,18 +179,26 @@ public class clientModel {
      * @param newPhone The new phone number of the client.
      * @return An integer indicating the success or failure of the operation.
      */
-    public int modifyClient(int ID,String newName, String newSurname1, String newSurname2, String newPhone) {
+    public int modifyClient(int ID, String newName, String newSurname1, String newSurname2, String newPhone) {
         int result = 0;
         Connection con = null;
+        PreparedStatement pst = null;
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Ventas_JDBC", "root", "root");
+            con = DriverManager.getConnection(url, user, password);
+
             if (con != null) {
-                Statement st = con.createStatement();
-                st.executeUpdate("UPDATE clients SET client_name = '" + newName + "', surname1 = '" + newSurname1 + "', surname2 = '" + newSurname2 + "', phone = '" + newPhone + "' WHERE id = " + ID + ";");
+                String updateQuery = "UPDATE clients SET client_name = ?, surname1 = ?, surname2 = ?, phone = ? WHERE id = ?";
+                pst = con.prepareStatement(updateQuery);
+                pst.setString(1, newName);
+                pst.setString(2, newSurname1);
+                pst.setString(3, newSurname2);
+                pst.setString(4, newPhone);
+                pst.setInt(5, ID);
+                pst.executeUpdate();
             }
-        }
-        catch (Exception e) {
+        } catch (SQLException | ClassNotFoundException e) {
             result = -1;
         }
         return result;
